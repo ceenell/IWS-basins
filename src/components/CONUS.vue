@@ -7,8 +7,9 @@
 </template>
 <script>
 import * as d3Base from 'd3';
+
 export default {
-  name: "DragNDrop",
+  name: "CONUS",
     components: {
 
     },
@@ -42,47 +43,4 @@ export default {
 </script>
 <style scoped lang="scss">
 
-#grid-container {
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 5vw 1fr 5vw;
-}
-.hwc {
-    max-width: 100%;
-    max-height: 100%;
-    grid-row: 1 / 2;
-    grid-column: 2 / 2;
-    z-index: 0;
-}
-.hwc-arrows {
-    max-width: 100%;
-    max-height: 100%;
-    grid-row: 1 / 2;
-    grid-column: 2 / 2;
-    z-index: 1;
-}
-.hwc-labels {
-    max-width: 100%;
-    max-height: 100%;
-    grid-row: 1 / 2;
-    grid-column: 2 / 2;
-    z-index: 2;
-}
-.hwc-blobs {
-    max-width: 100%;
-    max-height: 100%;
-    grid-row: 1 / 2;
-    grid-column: 2 / 2;
-    z-index: 5;
-}
-.word-bank {
-    max-width: 100%;
-    max-height: 100%;
-    grid-row: 1 / 2;
-    grid-column: 2 / 2;
-    z-index: 6;
-}
-.word-bank-svg {
-    fill: blue;
-}
 </style>

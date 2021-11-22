@@ -25,7 +25,7 @@
               alt=""
             >
             <figcaption>From Snow to Flow</figcaption>
-          </figure>
+          </figure>–
         </a>
       </div>
     </div>
