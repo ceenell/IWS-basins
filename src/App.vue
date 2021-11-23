@@ -64,16 +64,16 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
-$Abel: 'Abel', sans-serif;
 $Cairo: 'Cairo', sans-serif;
 $Assistant: 'Assistant', sans-serif;
+$text_color: white;
+$bkgd_color: royalblue;
 
 // Type
 html,
 body {
       height:100%;
-      background-color: white;
+      background-color: $bkgd_color;
       margin: 0;
       padding: 0;
       line-height: 1.2;
@@ -89,8 +89,9 @@ body {
 h1{
   font-size: 3.5em;
   font-weight: 300;
-  font-family: $Abel;
+  font-family: $Assistant;
   line-height: 1;
+  color: $text_color;
   text-align: left;
   text-shadow: 1px 1px 100px rgba(0,0,0,.8);
   @media screen and (max-width: 600px) {
@@ -104,6 +105,7 @@ h2{
   font-size: 1.3em;
   margin-top: 5px;
   line-height: 1.2;
+  color: $text_color;
   @media screen and (max-width: 600px) {
     font-size: 2em;
   }
@@ -113,6 +115,7 @@ h3{
   padding-top: .5em;
   font-family: $Assistant;
   font-weight: 300;
+  color: $text_color;
   @media screen and (max-width: 600px) {
       font-size: 1.4em;
   }  
@@ -120,6 +123,7 @@ h3{
 p, text {
   padding: 1em 0 0 0; 
   font-family: $Assistant;
+  color: $text_color;
 }
 
 </style>
