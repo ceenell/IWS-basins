@@ -3,7 +3,8 @@ library(targets)
 tar_option_set(packages = c(
   "nhdplusTools",
   "sf",
-  "tidyverse"))
+  "tidyverse",
+  "readxl"))
 
 source("1_fetch.R")
 source("2_process.R")
