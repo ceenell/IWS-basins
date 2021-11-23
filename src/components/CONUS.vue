@@ -43,8 +43,8 @@ export default {
     console.log(new_svg)
      */
     this.svg_container = document.querySelector('#chart-container')
-    this.width = svg_container.offsetWidth;
-    this.height = svg_container.offsetHeight;
+    this.width = this.svg_container.offsetWidth;
+    this.height = this.svg_container.offsetHeight;
 
     // create svg for paired chart
     this.svg_chart = this.d3.select("#chart-container")
@@ -53,15 +53,32 @@ export default {
         .attr("viewBox", "0 0 " + this.width + " " + this.height)
         .attr("preserveAspectRatio", "xMidYMid meet")
 
+    this.drawChart();
+
+    // resize chart when window changes 
     window.addEventListener("resize", this.resize)
 
     },
     methods:{
+        loadData(){
+           /*  const self = this;
+            let promises = [
+                self.d3.csv([file], this.d3.autotype)
+            ];ß
+            Promise.all(promises).then(self.callback); */
+        },
+        callback(data){
+
+        },
         resize(){
+            // make chart responsive
             var w = this.svg_container.clientWidth;
             var h = this.svg_container.clientHeight;
-
-
+        },
+        drawChart(){
+            this.svg_chart
+            .append("g")
+            .classed("test", true)
         }
 
     }

@@ -59,17 +59,8 @@ $bkgd_color: royalblue;
   display: grid;
   gap: 20px;
   grid-template-areas:
-    "title"
-    "content";
+    "title title"
+    "content content";
 }
-@media (min-width: 500px) {
-  .wrapper {
-    grid-template-columns: 2fr 2fr;
-    grid-template-areas:
-      "title title"
-      "content content";
-  }
-}
-
 
 </style>
