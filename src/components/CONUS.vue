@@ -41,9 +41,6 @@ export default {
     this.svg_map = this.d3.select("#conus-map")
 
     var map_iws = this.d3.selectAll(".huc8")
-    
-    // set chart elements
-    this.drawChart();
 
     // resize chart when window changes 
     window.addEventListener("resize", this.resize)
