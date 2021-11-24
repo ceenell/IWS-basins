@@ -46,7 +46,7 @@ $hilite: rgb(208, 138, 223);
 }
 #chart {
   grid-area: chart;
-  background-color: rgb(0, 238, 255);
+  //background-color: rgb(0, 238, 255);
 }
 // mobile layout
 .visualization {
