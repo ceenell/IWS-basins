@@ -1,3 +1,6 @@
+# Targets files
+_targets
+
 # History files
 .Rhistory
 .Rapp.history
