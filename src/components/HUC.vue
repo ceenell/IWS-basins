@@ -101,10 +101,12 @@ export default {
                 .attr("width", "100%")
                 .attr("height", "100%")
 
+            // append group and translate
             let card = this.svg_card.append("g")
               .attr("class", "card")
               .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
 
+            // add background rectangle
             card.append("rect")
               .attr("class", "bkgdRect")
               .attr("x", 0)
@@ -119,29 +121,23 @@ export default {
               .style("stroke-opacity", 0.2)
               .style("stroke-width", 0.5)
 
-            // variable to control placement of svg containing basin path
+            // define variables to control placement of svg that will contain basin path
             let inset_x = this.width/2
             let inset_y = 15
 
-            // Append group
+            // Append group and translate
             let insetGroup = card.append("g")
                 .classed("card insetMap", true)
                 .attr("transform", "translate(" + inset_x + "," + this.inner_margin.top + ")")
 
-            // // PLACEHOLDER
-            // // Will need to go in mouseover function
-            // // Pull svg of basin, d attribute of path element, and bounding box (for translation)
-            let basinSVG = document.querySelectorAll("#iws_upper_colorado")[0]
-            let basinPath = basinSVG.getAttribute("d")
-            let pathBBOX = basinSVG.getBBox()
-
-            // Append svg to hold basin path
+            // Append svg that will hold basin path
             let cardInset = insetGroup.append("svg")
                 .classed("card insetSVG", true)
                 .attr("id", "inset_svg")
                 .attr("width", (this.width/2 - this.inner_margin.right))
                 .attr("height", (this.height - this.inner_margin.top - this.inner_margin.bottom))
 
+            // Place card text
             // Variables controlling text vertical placement
             let text1_y = 20
             let text2_y = 50
@@ -256,7 +252,6 @@ $hilite: rgb(208, 138, 223);
   width: 100%;
   vertical-align: top;
   overflow: hidden;
-  // background-color: pink;
 }
 .svg-card {
     display:inline-block;
