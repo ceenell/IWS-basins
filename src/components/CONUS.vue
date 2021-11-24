@@ -59,10 +59,8 @@ export default {
     this.svg_map = this.d3.select("#conus-map")
 
     var map_iws = this.d3.selectAll(".huc8")
-    .attr("stroke","yellow")
-    .attr("fill","yellow")
-
-
+    
+    // set chart elements
     this.drawChart();
 
     // resize chart when window changes 
@@ -107,9 +105,7 @@ $hilite: rgb(208, 138, 223);
 }
 .huc8 {
     z-index:100;
-    stroke: red;
-    color: red;
-    fill: red;
+    fill: $hilite;
 }
 // grid layout
 #conus-map {
@@ -117,7 +113,6 @@ $hilite: rgb(208, 138, 223);
 }
 #chart-container {
   grid-area: chart;
-  background-color: pink;
   width: 100%;
   vertical-align: top;
   overflow: hidden;
