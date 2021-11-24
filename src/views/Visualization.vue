@@ -11,6 +11,9 @@
       <div id="huc-container">
         <HUC />
       </div>
+      <div id="chart-container" >
+        <chart />
+        </div>
     </div>
   </div>
 </template>
@@ -21,7 +24,8 @@ export default {
     name: 'Visualization',
     components: {
       CONUS: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/CONUS"),
-      HUC: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/HUC")
+      HUC: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/HUC"),
+      chart: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/chart")
     },
     computed: {
     },
@@ -50,6 +54,9 @@ $hilite: rgb(208, 138, 223);
 }
 #huc-container {
   grid-area: HUC;
+}
+#chart-container {
+  grid-area: chart;
 }
 // mobile layout
 .wrapper {
