@@ -1,19 +1,13 @@
 <template>
-  <section>
-    <!--   <svg 
-            data-src="https://labs.waterdata.usgs.gov/visualizations/maps/map.svg"
-            class = "map-conus"
-            ></svg> -->
-    <CONUSmap id="conus-map" />
+  <section> 
+    <div id="chart-container" />
   </section>
 </template>
 <script>
 import * as d3Base from 'd3';
-import CONUSmap from '@/assets/components/map.svg';
 export default {
-  name: "CONUS",
+  name: "HUC",
     components: {
-        CONUSmap
     },
     data() {
     return {
@@ -24,7 +18,8 @@ export default {
       width: null,
       height: null,
       margin: { top: 50, right: 50, bottom: 50, left: 50 },
-      svg_map: null,
+      svg_chart: null,
+      svg_container: null,
 
     }
   },
@@ -37,10 +32,22 @@ export default {
         .then((text) => eval(text))
     console.log(new_svg)
      */
-    
-    this.svg_map = this.d3.select("#conus-map")
 
-    var map_iws = this.d3.selectAll(".huc8")
+    // global items
+    this.svg_container = document.querySelector('#chart-container')
+    this.width = this.svg_container.offsetWidth;
+    this.height = this.svg_container.offsetHeight;
+
+    // create svg for paired chart
+    this.svg_chart = this.d3.select("#chart-container")
+        .append("svg")
+        .classed("svg-chart", true)
+        .attr("viewBox", "0 0 " + this.width + " " + this.height)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+    
+    
+    // set chart elements
+    this.drawChart();
 
     // resize chart when window changes 
     window.addEventListener("resize", this.resize)
@@ -62,20 +69,31 @@ export default {
             // make chart responsive
             var w = this.svg_container.clientWidth;
             var h = this.svg_container.clientHeight;
-        }
+        },
+        drawChart(){
+            this.svg_chart
+            .append("g")
+            .classed("test", true)
+        } 
+
     }
 }
 </script>
 <style scoped lang="scss">
 $hilite: rgb(208, 138, 223);
 
-// style map
-.state {
-    z-index: -100;
-}
-.huc8 {
-    z-index:100;
-    fill: $hilite;
-}
+// style card
 
+#chart-container {
+  width: 100%;
+  vertical-align: top;
+  overflow: hidden;
+  background-color: pink;
+}
+.svg-chart {
+    display:inline-block;
+    position: absolute;
+    top:0;
+    left:0;
+}
 </style>

@@ -17,7 +17,6 @@
             src="@/assets/usgsHeaderAndFooter/images/usgsLogo_white-01.png"
             alt="Home"
           >
-          <logo />
         </a>
       </div>
     </header>

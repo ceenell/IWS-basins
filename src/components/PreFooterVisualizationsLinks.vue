@@ -25,7 +25,7 @@
               alt=""
             >
             <figcaption>From Snow to Flow</figcaption>
-          </figure>–
+          </figure>
         </a>
       </div>
     </div>
@@ -57,12 +57,13 @@ $nearBlack: #1a1b1c;
     font-size: 16px;
     font-weight: 400;
     padding-top: .25em;
-    border-top: 2px solid black;
+    padding-left: 8px;
+    border-top: 2px solid white;
     p {
-      color: $nearBlack;
+      color: white;
       font-size: 1.5em;
     }
-    background-color: #c2c4c5;
+    background-color: rgb(41, 41, 41);
 
     .footer-viz-links {
       margin: 0 auto;
@@ -71,18 +72,18 @@ $nearBlack: #1a1b1c;
       justify-content: center;
 
       img {
-        width: 150px;
-        height: 150px;
+        width: 60%;
+        height: 60%;
         top: 0;
         left: 0;
       }
       a {
         figcaption {
           position: relative;
-          color: $nearBlack;
+          color: white;
           text-align: left;
           padding-bottom: 0.5em;
-          max-width: 150px;
+          max-width: 60%;
         }
         padding: 0.5em;
         max-width: 25rem;
@@ -98,6 +99,22 @@ $nearBlack: #1a1b1c;
       .footer-viz-links {
         flex-direction: row;
         justify-content: center;
+
+        img {
+          width: 200px;
+          height: 200px;
+          top: 0;
+          left: 0;
+        }
+        a {
+          figcaption {
+            position: relative;
+            color: white;
+            text-align: left;
+            padding-bottom: 0.5em;
+            max-width: 200px;
+          }
+        }
       }
     }
   }
