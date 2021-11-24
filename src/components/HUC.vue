@@ -205,9 +205,9 @@ export default {
             // PLACEHOLDER
             // Will need to pass in #id of basin
             // Pull svg of basin, d attribute of path element, and bounding box (for translation)
-            let basinSVG = document.querySelectorAll("#iws_upper_colorado")[0]
-            let basinPath = basinSVG.getAttribute("d")
-            let pathBBOX = basinSVG.getBBox()
+            let basinPath = document.querySelectorAll("#iws_upper_colorado")[0]
+            let basinPathCoords = basinPath.getAttribute("d")
+            let pathBBOX = basinPath.getBBox()
 
             // set viewBox of svg based on path bounding box attributes, so scales nicely
             let cardInset = this.d3.select("#inset_svg")
@@ -216,7 +216,7 @@ export default {
 
             // draw path and translate according to path bounding box
             cardInset.append("path")
-              .attr("d", basinPath)
+              .attr("d", basinPathCoords)
               .attr("fill", "rgb(41, 41, 41)")
               .style("stroke", "#f1f1f1")
               .style("stroke-width", 0.5)
