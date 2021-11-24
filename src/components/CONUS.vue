@@ -43,7 +43,7 @@ export default {
     var map_iws = this.d3.selectAll(".huc8")
 
     // resize chart when window changes 
-    window.addEventListener("resize", this.resize)
+    //window.addEventListener("resize", this.resize)
 
     },
     methods:{
@@ -68,14 +68,22 @@ export default {
 </script>
 <style scoped lang="scss">
 $hilite: rgb(208, 138, 223);
+$electric_blue: rgb(93, 225, 248);
 
 // style map
 .state {
     z-index: -100;
 }
+.river {
+    stroke: $electric_blue;
+}
+.order_6 {
+    stroke-width: 2px;
+}
 .huc8 {
     z-index:100;
-    fill: $hilite;
+    stroke: $hilite;
+    stroke-width: 2px;
 }
 
 </style>

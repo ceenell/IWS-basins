@@ -67,8 +67,8 @@ export default {
         },
         resize(){
             // make chart responsive
-            var w = this.svg_container.clientWidth;
-            var h = this.svg_container.clientHeight;
+           // var w = this.svg_container.clientWidth;
+            //var h = this.svg_container.clientHeight;
         },
         drawChart(){
             this.svg_chart
@@ -88,7 +88,7 @@ $hilite: rgb(208, 138, 223);
   width: 100%;
   vertical-align: top;
   overflow: hidden;
-  background-color: pink;
+  //background-color: pink;
 }
 .svg-chart {
     display:inline-block;

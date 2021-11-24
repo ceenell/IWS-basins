@@ -1,12 +1,12 @@
 <template>
   <section>
-   <div id="bee-container" ></div>
+    <div id="bee-container" />
   </section>
 </template>
 <script>
 import * as d3Base from 'd3';
 export default {
-  name: "chart",
+  name: "Chart",
     components: {
     },
     data() {
