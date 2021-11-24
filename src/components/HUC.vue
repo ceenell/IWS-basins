@@ -209,6 +209,7 @@ export default {
             let basinPath = basinSVG.getAttribute("d")
             let pathBBOX = basinSVG.getBBox()
 
+            // set viewBox of svg based on path bounding box attributes, so scales nicely
             let cardInset = this.d3.select("#inset_svg")
                 .attr("viewBox", "0 0 " + pathBBOX.width + " " + pathBBOX.height)
                 .attr("preserveAspectRatio", "xMidYMid meet")
