@@ -14,6 +14,7 @@ p2 <- list(
     p2_basin_mapping_csv,
     {
     out_file <- '2_process/out/basin_mapping.csv'
+    if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
     p2_basin_mapping %>% select(basin_id, huc04) %>% write_csv(file=out_file)
     return(out_file)
     }

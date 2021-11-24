@@ -55,6 +55,7 @@ get_raw_and_percentile_values <- function(basin_chars, basin_ranks, variable, un
     
     data <- left_join(basin_chars_subset, basin_ranks_subest, by='basin_id', suffix=c(paste0("_", units), "_percentile"))
     
+    if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
     readr::write_csv(data, file=out_file)
     return(out_file)
   } else {
