@@ -30,6 +30,7 @@ export default {
       margin: { top: 50, right: 50, bottom: 50, left: 50 },
       svg_chart: null,
       svg_container: null,
+      svg_map: null,
 
     }
   },
@@ -42,6 +43,8 @@ export default {
         .then((text) => eval(text))
     console.log(new_svg)
      */
+
+    // global items
     this.svg_container = document.querySelector('#chart-container')
     this.width = this.svg_container.offsetWidth;
     this.height = this.svg_container.offsetHeight;
@@ -52,6 +55,13 @@ export default {
         .classed("svg-chart", true)
         .attr("viewBox", "0 0 " + this.width + " " + this.height)
         .attr("preserveAspectRatio", "xMidYMid meet")
+    
+    this.svg_map = this.d3.select("#conus-map")
+
+    var map_iws = this.d3.selectAll(".huc8")
+    .attr("stroke","yellow")
+    .attr("fill","yellow")
+
 
     this.drawChart();
 
@@ -61,6 +71,7 @@ export default {
     },
     methods:{
         loadData(){
+            // add data here
            /*  const self = this;
             let promises = [
                 self.d3.csv([file], this.d3.autotype)
@@ -79,12 +90,28 @@ export default {
             this.svg_chart
             .append("g")
             .classed("test", true)
+        },
+        mapZoom(){
+
         }
 
     }
 }
 </script>
 <style scoped lang="scss">
+$hilite: rgb(208, 138, 223);
+
+// style map
+.state {
+    z-index: -100;
+}
+.huc8 {
+    z-index:100;
+    stroke: red;
+    color: red;
+    fill: red;
+}
+// grid layout
 #conus-map {
   grid-area: conus;
 }
@@ -110,7 +137,7 @@ export default {
     "conus"
     "chart"
 }
-@media (min-width: 700px) {
+@media (min-width: 900px) {
   #grid-container {
     grid-template-columns: 2fr 2fr;
     grid-template-areas:

@@ -2,8 +2,8 @@
   <div id="visualization">
     <div class="wrapper">
       <div id="title-container">
-      <h1>HUC yourself</h1>
-      <p>texty text text text</p>
+      <h1>Addressing water resource challenges</h1>
+      <p>The U.S. Geological Survey is addressing the Nation’s greatest water resource challenges through the intensive study of 10 Integrated Water Science (IWS) basins — medium-sized watersheds (10,000-20,000 square miles) and underlying aquifers. The IWS basins will represent a wide range of environmental, hydrologic, and landscape settings and human stressors of water resources to improve understanding of water availability.</p>
       </div>
     <article class="content">
       <CONUS />
@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss">
 $text_color: white;
-$bkgd_color: royalblue;
+$bkgd_color: rgb(41, 41, 41);
 
 // map style
 .usa {
@@ -45,7 +45,7 @@ $bkgd_color: royalblue;
 
 // layout
 #visualization {
-  margin: 2rem;
+  margin: 4rem;
 }
 .content {
   grid-area: content;
@@ -62,5 +62,10 @@ $bkgd_color: royalblue;
     "title title"
     "content content";
 }
-
+// desktop
+@media (min-width: 900px) {
+  #visualization {
+  margin: 5rem;
+}
+}
 </style>

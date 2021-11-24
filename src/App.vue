@@ -67,7 +67,7 @@
 $Cairo: 'Cairo', sans-serif;
 $Assistant: 'Assistant', sans-serif;
 $text_color: white;
-$bkgd_color: royalblue;
+$bkgd_color: rgb(41, 41, 41);
 
 // Type
 html,
