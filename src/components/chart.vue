@@ -55,7 +55,6 @@ export default {
           // water use by basin - basin_id, tot_wu_mgd, tot_wu_percentile
           this.basin_wu = data[0];
           this.basin_mapping = data[1];
-          console.log(this.basin_wu)
 
         },
         resize(){
@@ -70,20 +69,8 @@ export default {
 $hilite: rgb(208, 138, 223);
 $electric_blue: rgb(93, 225, 248);
 
-// style map
-.state {
-    z-index: -100;
-}
-.river {
-    stroke: $electric_blue;
-}
-.order_6 {
-    stroke-width: 2px;
-}
-.huc8 {
-    z-index:100;
-    stroke: $hilite;
-    stroke-width: 2px;
+#chart-container {
+  height: 15vh;
 }
 
 </style>
