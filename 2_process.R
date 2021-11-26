@@ -13,14 +13,10 @@ p2 <- list(
   tar_target(
     p2_basin_mapping_csv,
     {
-    out_file <- '2_process/out/basin_mapping.csv'
-    if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
-    p2_basin_mapping %>%
-      select(basin_id, basin_name = candidate_basin_name, basin_area_km2 = candidate_basin_area_km2,
-             huc04, huc04_name, huc04_area_km2) %>%
-      mutate(across(contains("area_km2"), ~round(.x, 2))) %>%
-      write_csv(file=out_file)
-    return(out_file)
+      out_file <- '2_process/out/basin_mapping.csv'
+      if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
+      p2_basin_mapping %>% select(basin_id, huc04) %>% write_csv(file=out_file)
+      return(out_file)
     }
   ),
   tar_target(
@@ -36,10 +32,21 @@ p2 <- list(
     parse_basin_data(p1_esm_xlsx, p2_esm_sheets[6], range="A5:Q168")
   ),
   tar_target(
+    p2_basin_info,
+    add_basin_info(p2_basin_chars,'region_number', 'region_name', 'precipitation_1981-2010_mm')
+  ),
+  tar_target(
     p2_basin_wateruse_csv,
-    get_raw_and_percentile_values(p2_basin_chars, p2_basin_ranks,
+    get_raw_and_percentile_values(p2_basin_info, p2_basin_chars, p2_basin_ranks,
                                   variable='tot_wu', units='mgd',
-                                  out_file='2_process/out/basin_water_use.csv'),
+                                  out_file='2_process/out/basin_water_use.csv',
+                                  'ur2012-1974', 'ag2012-1974',
+                                  'firehazard',
+                                  'ppt_change_mm',
+                                  'aq_animal_sar_mean', 'aq_plant_sar_mean',
+                                  'wtl_animal_sar_mean', 'wtl_plant_sar_mean',
+                                  'rarearea_perc',
+                                  'eco_sensitivity_mean_rank'),
     format = 'file'
   )
   # TODO - add target to push the final data csv(s) to S3

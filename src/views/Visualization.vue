@@ -6,7 +6,7 @@
     </div>
     <CONUS id="conus-container" />
     <HUC id="huc-container" />
-    <chart id="chart" />
+    <BarcodeChart id="chart" />
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     components: {
       CONUS: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/CONUS"),
       HUC: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/HUC"),
-      chart: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/chart")
+      BarcodeChart: () => import( /* webpackPreload: true */ /*webpackChunkName: "section"*/ "./../components/BarcodeChart")
     },
     computed: {
     },
@@ -30,9 +30,17 @@ export default {
 </script>
 
 <style lang="scss">
+// color scale
+$dark_blue: rgb(26, 62, 89);
+$dark_purp:rgb(71, 9, 56);
+$lite_blue:rgb(92, 148, 189);
+$lite_purp: rgb(242, 214, 235); 
+
+// color vars
+$bkgd_color: rgb(49, 49, 49);
 $text_color: white;
-$bkgd_color: rgb(41, 41, 41);
-$hilite: rgb(208, 138, 223);
+$hilite: $lite_blue;
+
 
 // layout
 #title-container {
