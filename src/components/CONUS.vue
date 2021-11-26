@@ -1,9 +1,5 @@
 <template>
   <section>
-    <!--   <svg 
-            data-src="https://labs.waterdata.usgs.gov/visualizations/maps/map.svg"
-            class = "map-conus"
-            ></svg> -->
     <CONUSmap id="conus-map" />
   </section>
 </template>

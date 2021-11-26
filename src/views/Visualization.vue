@@ -1,7 +1,7 @@
 <template>
   <div class="visualization">
     <div id="title-container">
-      <h1>Addressing water resource challenges</h1>
+      <h1>Integrated Water Science Basins</h1>
       <p>The U.S. Geological Survey is addressing the Nation’s greatest water resource challenges through the intensive study of 10 Integrated Water Science (IWS) basins. The IWS basins will represent a wide range of environmental, hydrologic, and landscape settings and human stressors of water resources to improve understanding of water availability.</p>
     </div>
     <CONUS id="conus-container" />
