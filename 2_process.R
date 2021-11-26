@@ -15,7 +15,9 @@ p2 <- list(
     {
     out_file <- '2_process/out/basin_mapping.csv'
     if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
-    p2_basin_mapping %>% select(basin_id, huc04) %>% write_csv(file=out_file)
+    p2_basin_mapping %>%
+      select(basin_id, huc04, huc04_name, huc04_area_km2) %>%
+      write_csv(file=out_file)
     return(out_file)
     }
   ),
@@ -33,8 +35,8 @@ p2 <- list(
   ),
   tar_target(
     p2_basin_wateruse_csv,
-    get_raw_and_percentile_values(p2_basin_chars, p2_basin_ranks, 
-                                  variable='tot_wu', units='mgd', 
+    get_raw_and_percentile_values(p2_basin_chars, p2_basin_ranks,
+                                  variable='tot_wu', units='mgd',
                                   out_file='2_process/out/basin_water_use.csv'),
     format = 'file'
   )
