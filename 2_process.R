@@ -33,7 +33,9 @@ p2 <- list(
   ),
   tar_target(
     p2_basin_info,
-    add_basin_info(p2_basin_chars,'region_number', 'region_name', 'precipitation_1981-2010_mm')
+    add_basin_info(p2_basin_chars,
+                   'region_number', 'region_name',
+                   'precipitation_1981-2010_mm', 'temperature_1981-2010_celsius')
   ),
   tar_target(
     p2_basin_wateruse_csv,

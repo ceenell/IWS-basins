@@ -66,17 +66,75 @@ export default {
 
           // water use by basin - basin_id, tot_wu_mgd, tot_wu_percentile
           this.basin_wu = data[0];
-          console.log(this.basin_wu)
 
           // mapping huc to basin
           this.basin_mapping = data[1];
 
-          // draw water use barcode
-          this.drawChart(this.basin_wu, {
+          this.addBarcode(this.basin_wu)
+        },
+        addBarcode(data){
+          // draw barcode strips
+          this.drawChart(data, {
             x: d => d.tot_wu_mgd,
-            x_max: 12000,
-            type: this.d3.scaleLinear,
-            x_name: d => 'Water use'
+            x_name: d => 'Water use (mgd)',
+            y_pos: 20,
+            x_min: 0,
+            var_class: 'wu'
+          })
+
+          this.drawChart(data, {
+            x: d => d.ppt_change_mm,
+            x_name: d => 'Change in precip (mm)',
+            y_pos: 50,
+            x_min: -150,
+            var_class: 'ppt'
+          })
+
+          this.drawChart(data, {
+            x: d => d['ur2012-1974'],
+            x_name: d => 'Change in urban (%)',
+            y_pos: 80,
+            x_min: 0,
+            var_class: 'urban'
+          })
+
+          this.drawChart(data, {
+            x: d => d['ag2012-1974'],
+            x_name: d => 'Change in agriculture (%)',
+            y_pos: 110,
+            x_min: 0,
+            var_class: 'agriculture'
+          })
+
+          this.drawChart(data, {
+            x: d => d['rarearea_perc'],
+            x_name: d => 'Rare ecosystem (%)',
+            y_pos: 140,
+            x_min: 0,
+            var_class: 'rare'
+          })
+
+          this.drawChart(data, {
+            x: d => d['aq_animal_sar_mean'],
+            x_name: d => 'Aquatic animal species (SAR)',
+            y_pos: 170,
+            x_min: 0,
+            var_class: 'rare'
+          })
+
+          this.drawChart(data, {
+            x: d => d['aq_plant_sar_mean'],
+            x_name: d => 'Aquatic plant species (SAR)',
+            y_pos: 200,
+            x_min: 0,
+            var_class: 'rare'
+          })
+          this.drawChart(data, {
+            x: d => d['firehazard'],
+            x_name: d => 'Fire hazard',
+            y_pos: 230,
+            x_min: 0,
+            var_class: 'fire'
           })
         },
         resize(){
@@ -87,42 +145,60 @@ export default {
           value = d => d, // convenience alias for x
           x = value, // given d in data, returns value
           type = this.d3.scaleLinear,
-          x_name
+          x_name,
+          x_min,
+          y_pos,
+          y_height = 12,
+          var_class
         } = {}) {
-          
+
+          const x_start = 200;
+
           // x axis scale
-          var xScale = this.d3.scaleLinear()
-            .domain([0, this.d3.max(data, x)]).nice()
-            .range([20, this.w-20])
+          var xScale = type()
+            .domain([x_min, this.d3.max(data, x)]).nice()
+            .range([x_start, this.w-20])
 
           var xAxis = this.d3.axisTop(xScale)
-            //.ticks(10)
 
+          // there's too many variables - need to refine. also difficult to show more than one with different axes
+          // should make generalized axes and then have true value shown in pop up?
           this.svg_barcode.append("g")
+            .attr("transform", "translate(" + 0 + ", " + y_pos + ")")
             .attr("class", "x-axis")
-            .call(xAxis)
-            .attr("transform", "translate(0, " + 20 + ")")
-          // for some reason the barcode is not staying within the x-axis bounds
+            /* .call(xAxis)
+            .call(g => g.select(".domain")
+                .attr("stroke-opacity", 0.5)
+                .attr("stroke", "white"))
+            .call(g => g.selectAll(".tick line")
+                .attr("stroke-opacity", 0.5)
+                .attr("stroke", "white")) */
+            .call(g => g.append("text")
+                .attr("x", 0)
+                .attr("y", 10+y_height)
+                .attr("font-size", "1rem")
+                .attr("class", "x_label")
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "start")
+                .text(x_name));
 
-          this.d3.select(".x-axis path")
-          .attr("stroke", "white")
+          // draw barcode lines
+          var svg_add = this.svg_barcode
+            .append("g")
+            .classed(var_class, true)
 
-          this.d3.selectAll(".tick line")
-          .attr("stroke", "white")
-
-          this.svg_barcode
+          svg_add
             .selectAll(".bar")
-            .data(this.basin_wu, function(d) { return d.basin_id})
+            .data(data, function(d) { return d.basin_id })
             .enter()
             .append("rect")
             .classed("bar", true)
-            .attr("x",(d) => xScale(x))
-            .attr("y", (this.h/4))
-            .attr("width", 1)
-            .attr("height", 10)
+            .attr("x", d => xScale(x(d)))
+            .attr("y", y_pos+10)
+            .attr("width", 2)
+            .attr("height", y_height)
             .attr("opacity", 0.5)
             .attr("fill", "white")    
-            // could add rows for region, or different variables
 
         }
 
@@ -134,7 +210,7 @@ $hilite: rgb(208, 138, 223);
 $electric_blue: rgb(93, 225, 248);
 
 #barcode-container {
-  height: 15vh;
+  height: 45vh;
   width: 100%;
 }
 
