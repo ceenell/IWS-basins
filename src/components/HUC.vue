@@ -86,8 +86,8 @@ export default {
         },
         resize(){
             // make chart responsive
-            var w = this.svg_container.clientWidth;
-            var h = this.svg_container.clientHeight;
+           // var w = this.svg_container.clientWidth;
+            //var h = this.svg_container.clientHeight;
         },
         drawCard(){
           const self = this
