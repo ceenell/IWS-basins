@@ -30,7 +30,7 @@ parse_basin_data <- function(metrics_file, sheet, range) {
 }
 
 # Parse the term definition data
-# add a column to get the cleaned column names used in the 
+# add a column to get the cleaned column names used in the
 # raw basin characteristics and basin ranks data
 # in case we want to be able to pull units for given variables
 parse_basin_defs <- function(metrics_files, sheet, range) {
@@ -44,17 +44,17 @@ get_raw_and_percentile_values <- function(basin_chars, basin_ranks, variable, un
   # get names of variables in ranked dataset, since
   # not all basin characteristics have ranked percentile values
   valid_var_names <- colnames(basin_ranks)[6:15]
-  
+
   # if the variable has a ranked percentile value
   if (variable %in% valid_var_names) {
     basin_chars_subset <- basin_chars %>%
       select(basin_id, variable)
-    
+
     basin_ranks_subest <- basin_ranks %>%
       select(basin_id, variable)
-    
+
     data <- left_join(basin_chars_subset, basin_ranks_subest, by='basin_id', suffix=c(paste0("_", units), "_percentile"))
-    
+
     if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
     readr::write_csv(data, file=out_file)
     return(out_file)

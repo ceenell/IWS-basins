@@ -16,7 +16,9 @@ p2 <- list(
     out_file <- '2_process/out/basin_mapping.csv'
     if(!dir.exists(dirname(out_file))) dir.create(dirname(out_file), recursive=TRUE)
     p2_basin_mapping %>%
-      select(basin_id, huc04, huc04_name, huc04_area_km2) %>%
+      select(basin_id, basin_name = candidate_basin_name, basin_area_km2 = candidate_basin_area_km2,
+             huc04, huc04_name, huc04_area_km2) %>%
+      mutate(across(contains("area_km2"), ~round(.x, 2))) %>%
       write_csv(file=out_file)
     return(out_file)
     }
