@@ -74,16 +74,9 @@ export default {
       .attr("preserveAspectRatio", "xMidYMid meet")
 
     this.loadData();
-    
-    // add mouseover interaction to map
-    map_iws = this.d3.selectAll("path.huc8")
-        .attr("z-index", 500)
-        .on("mouseover", function(d, i) {
-          console.log(".basin_" + i)
-        })
 
    // resize chart when window changes 
-    window.addEventListener("resize", this.drawChart)
+   // window.addEventListener("resize", this.drawChart)
 
     },
     methods:{
@@ -115,13 +108,8 @@ export default {
           // and the stats data for that basin
           this.customizeCard();
 
-          // draw chart
+          // draw bacodes
           this.addBarcode(this.basin_wu)
-        },
-        resize(){
-            // make chart responsive
-            var w = this.svg_container.clientWidth;
-            var h = this.svg_container.clientHeight;
         },
         addBarcode(data){
           // draw barcode strips
@@ -187,6 +175,30 @@ export default {
             x_min: 0,
             var_class: 'fire'
           })
+
+          // add classes to IWS basins for interaction
+           var iws_irb = "iws_illinois";
+           var iws_ucol = "iws_upper_colorado";
+           var iws_drb = "iws_delaware";
+
+          // TODO: use basin to huc mapping to make more flexbile
+           this.d3.selectAll(".basin_712")
+             .classed(iws_irb, true)
+
+           this.d3.selectAll(".basin_713")
+             .classed(iws_irb, true)
+
+           this.d3.selectAll(".basin_204")
+             .classed(iws_drb, true)
+
+            this.d3.selectAll(".basin_1402")
+             .classed(iws_ucol, true)
+
+            this.d3.selectAll(".basin_1401")
+              .classed(iws_ucol, true)
+
+          // trigger hover interaction with barcode
+          this.hoverIWS();
         },
         drawChart(data, {
           //draws bacode chart given x variable inputs
@@ -243,7 +255,7 @@ export default {
             .enter()
             .append("rect")
             .classed("bar", true)
-            .attr("class", d => { return "bar basin_" + d.basin_id }) // to grab in interaction
+            .attr("class", d => { return "bar basin_" + d.basin_id }) // to grab in interaction - 
             .attr("x", d => xScale(x(d)))
             .attr("y", y_pos+10)
             .attr("width", 2)
@@ -251,6 +263,41 @@ export default {
             .attr("opacity", 0.35)
             .attr("fill", "white")    
 
+  
+        },
+        hoverIWS(){
+           // add mouseover interaction to map using basin class
+          this.d3.selectAll(".huc8")
+              .attr("z-index", 500)
+              .on("mouseover", function(d, i) {
+
+          let basin;
+
+          // TODO: use basin mapping to coordinate interaction between svgs
+
+          if (i == '0') {
+            basin = "iws_illinois"
+            console.log("." + basin)
+            this.svg_barcode
+              .selectAll("rect." + basin)
+              .attr("fill", "red")
+          };
+          if (i == '2') {
+            basin = "iws_upper_colorado"
+            console.log("rect." + basin)
+            this.svg_barcode
+              .selectAll("rect." + basin)
+              .attr("fill", "red")
+          };
+          if (i == '1') {
+            basin = "iws_delaware"
+            console.log("rect." + basin)
+            this.svg_barcode
+              .selectAll("rect." + basin)
+              .attr("fill", "red")
+          }
+    
+         })
         },
         drawCard(){
           const self = this
