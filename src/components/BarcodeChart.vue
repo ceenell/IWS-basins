@@ -1,6 +1,7 @@
 <template>
   <section>
     <div id="barcode-container" />
+    <p>The variables above represent some attributes considered in the selection of IWS basins. Use your mouse to explore stats for each basin. </p>
   </section>
 </template>
 <script>
@@ -40,7 +41,7 @@ export default {
     // create svg that will hold chart
     this.svg_barcode = this.d3.select("#barcode-container")
       .append("svg")
-      .classed("svg-chart", true)
+      .classed("barcode-chart", true)
       .attr("viewBox", "0 0 " + this.w + " " + this.h)
       .attr("preserveAspectRatio", "xMidYMid meet")
 
@@ -148,11 +149,11 @@ export default {
           x_name,
           x_min,
           y_pos,
-          y_height = 12,
+          y_height = 16,
           var_class
         } = {}) {
 
-          const x_start = 200;
+          const x_start = 250;
 
           // x axis scale
           var xScale = type()
@@ -163,6 +164,7 @@ export default {
 
           // there's too many variables - need to refine. also difficult to show more than one with different axes
           // should make generalized axes and then have true value shown in pop up?
+          // use same scaling for percentages?
           this.svg_barcode.append("g")
             .attr("transform", "translate(" + 0 + ", " + y_pos + ")")
             .attr("class", "x-axis")
@@ -177,6 +179,7 @@ export default {
                 .attr("x", 0)
                 .attr("y", 10+y_height)
                 .attr("font-size", "1rem")
+                .attr("font-weight", 600)
                 .attr("class", "x_label")
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "start")
@@ -193,11 +196,12 @@ export default {
             .enter()
             .append("rect")
             .classed("bar", true)
+            .attr("class", d => { return "bar basin_" + d.basin_id }) // to grab in interaction
             .attr("x", d => xScale(x(d)))
             .attr("y", y_pos+10)
             .attr("width", 2)
             .attr("height", y_height)
-            .attr("opacity", 0.5)
+            .attr("opacity", 0.35)
             .attr("fill", "white")    
 
         }
@@ -210,7 +214,7 @@ $hilite: rgb(208, 138, 223);
 $electric_blue: rgb(93, 225, 248);
 
 #barcode-container {
-  height: 45vh;
+  height: 25vh;
   width: 100%;
 }
 
