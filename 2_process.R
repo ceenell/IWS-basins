@@ -3,7 +3,7 @@ source('2_process/src/munge_basin_metrics.R')
 
 p2 <- list(
   tar_target(
-    p2_esm_sheets,
+    p2_esm_sheets, # Lindsay edit
     readxl::excel_sheets(p1_esm_xlsx)
   ),
   tar_target(
