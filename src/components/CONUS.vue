@@ -406,17 +406,12 @@ export default {
               .attr("transform", "translate(" + -pathBBOX.x + "," + -pathBBOX.y + ")")
 
             // populate titles
-            // PLACEHOLDERS FOR NOW
-            // will need to use actual data values
-            // text will eventually be populated on mouseover
             this.d3.select("#basin_name")
               .text(data.basin_name)
             this.d3.select("#region_name")
               .text(data.region_name)
 
             // populate stats
-            // PLACEHOLDERS FOR NOW
-            // will need to use actual data values
             this.d3.select("#basin_area")
               .text(Math.round(data.basin_area_km2))
             this.d3.select("#mean_temp")
