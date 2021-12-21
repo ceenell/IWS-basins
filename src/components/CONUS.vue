@@ -47,7 +47,8 @@ export default {
       svg_chart: null,
       svg_card: null,
       barcode_container: null,
-
+      selected_basin: null,
+      basin_dict: {} 
     }
   },
   
@@ -72,6 +73,17 @@ export default {
       .classed("barcode-chart", true)
       .attr("viewBox", "0 0 " + this.w + " " + this.h)
       .attr("preserveAspectRatio", "xMidYMid meet")
+
+    // popoulate basin dict
+    // eventually, the map.svg should have basin ids as an element id or class
+    // TODO - add basin ids (numeric) as id or classes
+    //
+    // NOTE - Some IWS basins have multiple basin ids associated with them
+    // using one for now, as complicates card customization and bar selection
+    // TODO - Address complexity of multiple basin ids per IWS basin
+    this.basin_dict['iws_illinois'] = [712] //[712, 713]
+    this.basin_dict['iws_delaware'] = [204]
+    this.basin_dict['iws_upper_colorado'] = [1403] //[1403, 1407]
 
     this.loadData();
 
@@ -99,17 +111,14 @@ export default {
           // mapping huc to basin
           this.basin_mapping = data[1];
 
-           // draw card
+           // draw blank card
           this.drawCard();
-
-          // populate card
-          // PLACEHOLDER FUNCTION - will eventually by called by mouseover
-          // and passed the basin id (will be used to get path)
-          // and the stats data for that basin
-          this.customizeCard();
 
           // draw bacodes
           this.addBarcode(this.basin_wu)
+
+          // trigger hover interaction with map
+          this.hoverIWS(this.basin_wu);
         },
         addBarcode(data){
           // draw barcode strips
@@ -196,9 +205,6 @@ export default {
 
             this.d3.selectAll(".basin_1401")
               .classed(iws_ucol, true)
-
-          // trigger hover interaction with barcode
-          this.hoverIWS();
         },
         drawChart(data, {
           //draws bacode chart given x variable inputs
@@ -264,40 +270,6 @@ export default {
             .attr("fill", "white")    
 
   
-        },
-        hoverIWS(){
-           // add mouseover interaction to map using basin class
-          this.d3.selectAll(".huc8")
-              .attr("z-index", 500)
-              .on("mouseover", function(d, i) {
-
-          let basin;
-
-          // TODO: use basin mapping to coordinate interaction between svgs
-
-          if (i == '0') {
-            basin = "iws_illinois"
-            console.log("." + basin)
-            this.svg_barcode
-              .selectAll("rect." + basin)
-              .attr("fill", "red")
-          };
-          if (i == '2') {
-            basin = "iws_upper_colorado"
-            console.log("rect." + basin)
-            this.svg_barcode
-              .selectAll("rect." + basin)
-              .attr("fill", "red")
-          };
-          if (i == '1') {
-            basin = "iws_delaware"
-            console.log("rect." + basin)
-            this.svg_barcode
-              .selectAll("rect." + basin)
-              .attr("fill", "red")
-          }
-    
-         })
         },
         drawCard(){
           const self = this
@@ -407,17 +379,19 @@ export default {
               .attr("y", text5_y)
               
         },
-        // PLACEHOLDER FUNCTION - will eventually by called by mouseover
-        // and passed the basin id (will be used to get path)
+        // Called by mouseover and passed the basin id (used to get path)
         // and the stats data for that basin
-        customizeCard() {
-          const self = this
-            // PLACEHOLDER
-            // Will need to pass in #id of basin
+        customizeCard(basin_id, data) {
+            const self = this
+            
             // Pull svg of basin, d attribute of path element, and bounding box (for translation)
-            let basinPath = document.querySelectorAll("#iws_upper_colorado")[0]
+            let basinPath = document.querySelectorAll("#"+basin_id)[0]
             let basinPathCoords = basinPath.getAttribute("d")
             let pathBBOX = basinPath.getBBox()
+
+            // remove path of previously selected basin from inset svg
+            this.d3.select("#inset_svg").selectAll("#inset_"+this.selected_basin)
+                .remove()
 
             // set viewBox of svg based on path bounding box attributes, so scales nicely
             let cardInset = this.d3.select("#inset_svg")
@@ -427,30 +401,73 @@ export default {
             // draw path and translate according to path bounding box
             cardInset.append("path")
               .attr("d", basinPathCoords)
+              .attr("id", "inset_" + basin_id)
               .attr("fill", "rgb(41, 41, 41)")
               .style("stroke", "#f1f1f1")
               .style("stroke-width", 0.5)
               .attr("transform", "translate(" + -pathBBOX.x + "," + -pathBBOX.y + ")")
 
             // populate titles
-            // PLACEHOLDERS FOR NOW
-            // will need to use actual data values
-            // text will eventually be populated on mouseover
             this.d3.select("#basin_name")
-              .text("Basin name")
+              .text(data.basin_name)
             this.d3.select("#region_name")
-              .text("Region name")
+              .text(data.region_name)
 
             // populate stats
-            // PLACEHOLDERS FOR NOW
-            // will need to use actual data values
             this.d3.select("#basin_area")
-              .text("23,000")
+              .text(Math.round(data.basin_area_km2))
             this.d3.select("#mean_temp")
-              .text("8.9")
+              .text((Math.round(data['temperature_1981-2010_celsius'])))
             this.d3.select("#mean_ppt")
-              .text("2,022")
-        } 
+              .text((Math.round(data['precipitation_1981-2010_mm'])))
+
+            this.selected_basin = basin_id
+        },
+        selectBar(basin_id){
+          // deselect previous selection
+          this.svg_barcode
+              .selectAll(".bar")
+              .attr("opacity", 0.35)
+              .attr("fill", "white")
+              .attr("width", 2)
+
+          // Select bars for current basin
+          this.svg_barcode
+              .selectAll(".bar.basin_" + basin_id)
+              .attr("opacity", 1)
+              .attr("fill", "red")
+              .attr("width", 3)
+              .raise()
+        },
+        // not currently used - would be used with mouseout
+        deselectBar(basin_id) {
+          this.svg_barcode
+              .selectAll(".bar.basin_" + basin_id)
+              .attr("opacity", 0.35)
+              .attr("fill", "white")
+        },
+        // Add interaction to map basins
+        hoverIWS(data){
+          const self = this;
+
+          // add mouseover interaction to map using basin class
+          let basins = this.d3.selectAll(".huc8")
+          let basins_list = basins._groups[0]
+
+          basins_list.forEach(function(basin) {
+            let basin_num = self.basin_dict[basin.id]
+            let basin_data = data.filter(function(d) {return d.basin_id == basin_num})
+            self.d3.select("#" + basin.id)
+              .data(basin_data)
+              .on("mouseover", function(d) {
+                self.customizeCard(basin.id, d)
+                self.selectBar(basin_num)
+              })
+              // .on("mouseout", function(d) {
+              //   self.deselectBar(basin_num)
+              // })
+          })
+        }
     }
 }
 </script>
@@ -466,12 +483,19 @@ $electric_blue: rgb(93, 225, 248);
     stroke: $electric_blue;
 }
 .order_6 {
+    stroke-width: 1px;
+}
+.order_7 {
     stroke-width: 2px;
+}
+.order_8 {
+    stroke-width: 3px;
 }
 .huc8 {
     z-index:100;
     stroke: $hilite;
-    stroke-width: 2px;
+    stroke-width: 1px;
+    fill: $hilite;
 }
 
 // style card
