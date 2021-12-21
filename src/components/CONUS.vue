@@ -449,7 +449,6 @@ export default {
         // Add interaction to map basins
         hoverIWS(data){
           const self = this;
-          console.log(data)
 
           // add mouseover interaction to map using basin class
           let basins = this.d3.selectAll(".huc8")
@@ -496,6 +495,7 @@ $electric_blue: rgb(93, 225, 248);
     z-index:100;
     stroke: $hilite;
     stroke-width: 1px;
+    fill: $hilite;
 }
 
 // style card
