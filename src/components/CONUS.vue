@@ -76,8 +76,11 @@ export default {
 
     // popoulate basin dict
     // eventually, the map.svg should have basin ids as an element id or class
-    // NOTE - IWS basins have multiple basin ids associated with them
+    // TODO - add basin ids (numeric) as id or classes
+    //
+    // NOTE - Some IWS basins have multiple basin ids associated with them
     // using one for now, as complicates card customization and bar selection
+    // TODO - Address complexity of multiple basin ids per IWS basin
     this.basin_dict['iws_illinois'] = [712] //[712, 713]
     this.basin_dict['iws_delaware'] = [204]
     this.basin_dict['iws_upper_colorado'] = [1403] //[1403, 1407]
@@ -108,13 +111,13 @@ export default {
           // mapping huc to basin
           this.basin_mapping = data[1];
 
-           // draw card
+           // draw blank card
           this.drawCard();
 
           // draw bacodes
           this.addBarcode(this.basin_wu)
 
-          // trigger hover interaction with barcode
+          // trigger hover interaction with map
           this.hoverIWS(this.basin_wu);
         },
         addBarcode(data){
@@ -376,8 +379,7 @@ export default {
               .attr("y", text5_y)
               
         },
-        // PLACEHOLDER FUNCTION - will eventually by called by mouseover
-        // and passed the basin id (will be used to get path)
+        // Called by mouseover and passed the basin id (used to get path)
         // and the stats data for that basin
         customizeCard(basin_id, data) {
             const self = this
@@ -387,7 +389,7 @@ export default {
             let basinPathCoords = basinPath.getAttribute("d")
             let pathBBOX = basinPath.getBBox()
 
-            // remove all paths associated with inset svg
+            // remove path of previously selected basin from inset svg
             this.d3.select("#inset_svg").selectAll("#inset_"+this.selected_basin)
                 .remove()
 
@@ -429,6 +431,7 @@ export default {
               .attr("fill", "white")
               .attr("width", 2)
 
+          // Select bars for current basin
           this.svg_barcode
               .selectAll(".bar.basin_" + basin_id)
               .attr("opacity", 1)
@@ -436,12 +439,14 @@ export default {
               .attr("width", 3)
               .raise()
         },
+        // not currently used - would be used with mouseout
         deselectBar(basin_id) {
           this.svg_barcode
               .selectAll(".bar.basin_" + basin_id)
               .attr("opacity", 0.35)
               .attr("fill", "white")
         },
+        // Add interaction to map basins
         hoverIWS(data){
           const self = this;
           console.log(data)
